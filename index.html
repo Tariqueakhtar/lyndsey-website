@@ -744,8 +744,15 @@
 <script>
   function toggleLadder(btn){
     const row = btn.closest('.ladder-row');
-    const isOpen = row.classList.toggle('open');
-    btn.setAttribute('aria-expanded', isOpen);
+    const wasOpen = row.classList.contains('open');
+    row.parentElement.querySelectorAll('.ladder-row.open').forEach(openRow => {
+      openRow.classList.remove('open');
+      openRow.querySelector('.ladder-toggle').setAttribute('aria-expanded', 'false');
+    });
+    if(!wasOpen){
+      row.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
+    }
   }
   function handleLeadSubmit(e){
     e.preventDefault();
